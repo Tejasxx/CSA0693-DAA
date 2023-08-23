@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+static void print_circuit(const unsigned int *circuit, size_t len)
+{
+    unsigned int v;
+    for (v = 0; v < len; v++) {
+        printf("%d ", circuit[v]);
+    }
+    putchar('\n');
+}
+ 
+int main(void)
+{
+    unsigned int **adjmat;
+    const size_t n = 5;
+    unsigned int i, j;
+ 
+    /* Create a complete graph on 5 vertices */
+    adjmat = malloc(n * sizeof(unsigned int *));
+    for (i = 0; i < n; i++) {
+        adjmat[i] = malloc(n * sizeof(unsigned int));
+        for (j = 0; j < n; j++) {
+            adjmat[i][j] = 1;
+        }
+    }
+ 
+    hamiltonian_circuits(adjmat, n, print_circuit);
+    for (i = 0; i < n; i++) {
+        free(adjmat[i]);
+    }
+    free(adjmat);
+ 
+    return 0;
+}
